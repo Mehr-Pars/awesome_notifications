@@ -6,8 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaMetadata;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import io.flutter.Log;
 
@@ -45,6 +47,7 @@ import me.carda.awesome_notifications.notifications.models.DefaultsModel;
 import me.carda.awesome_notifications.notifications.models.NotificationCalendarModel;
 import me.carda.awesome_notifications.notifications.models.NotificationIntervalModel;
 import me.carda.awesome_notifications.notifications.models.NotificationScheduleModel;
+import me.carda.awesome_notifications.notifications.models.NotificationContentModel;
 import me.carda.awesome_notifications.notifications.models.PushNotification;
 import me.carda.awesome_notifications.notifications.enumeratos.MediaSource;
 import me.carda.awesome_notifications.notifications.enumeratos.NotificationLifeCycle;
@@ -1063,6 +1066,17 @@ public class AwesomeNotificationsPlugin
                 Log.d(TAG, "Notification action received");
         }
         return true;
+    }
+
+    public static MediaSessionCompat.Token getMediaSessionToken(NotificationContentModel contentModel) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            MediaMetadataCompat metaData = new MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, contentModel.title)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, contentModel.summary)
+                    .build();
+            mediaSession.setMetadata(metaData);
+        }
+        return mediaSession.getSessionToken();
     }
 
 }

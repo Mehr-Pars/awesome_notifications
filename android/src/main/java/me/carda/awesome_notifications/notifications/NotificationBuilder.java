@@ -713,7 +713,7 @@ public class NotificationBuilder {
             new androidx.media.app.NotificationCompat.MediaStyle()
                 .setShowActionsInCompactView(1,2,3)
                 .setShowCancelButton(true)
-                .setMediaSession(AwesomeNotificationsPlugin.mediaSession.getSessionToken())
+//                .setMediaSession(AwesomeNotificationsPlugin.getMediaSessionToken(contentModel))
         );
 
         if(!StringUtils.isNullOrEmpty(contentModel.summary)){
